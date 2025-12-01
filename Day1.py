@@ -26,15 +26,21 @@ def part_two():
     carries = 0
     results = []
     for i in sol:
-        value += int(i)
-        wraps = abs(value) // 100
-        carries += wraps
-        value = value % 100
+        delta = int(i)
+        clicks, rotation = divmod(abs(delta), 100)
+        carries += clicks
+        
+        if delta > 0:
+            if value + rotation >= 100:
+                carries += 1
+            value = (value + rotation) % 100
+        else:
+            if value and value - rotation <= 0:
+                carries += 1
+            value = (value - rotation) % 100
         results.append(value)
 
-    zeros = results.count(0)
-    total = carries + zeros
-    print("Part 2: " + str(total))
+    print("Part 2: " + str(carries))
 
 part_one()
 part_two()
